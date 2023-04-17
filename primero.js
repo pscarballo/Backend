@@ -40,7 +40,7 @@ const product = {
   price: 250,
   thumbnail:
     "https://www.comedera.com/wp-content/uploads/2022https://www.snipesusa.com/dw/image/v2/BFKF_PRD/on/demandware.static/-/Sites-snipes-master-catalog/default/dw19fdbccb/images/hi-res/jordan_ct8013-071_06.jpg?sw=800&sh=1004&strip=false/04/Papas-rusticas-shutterstock_2022241940-768x479.jpg",
-  code: "AB123",
+  code: "abc123",
   stock: 50,
 };
 
@@ -48,4 +48,4 @@ const productManager = new ProductManager();
 
 console.log(productManager.addProduct(product));
 console.log(productManager.getProducts());
-console.log(productManager.getProductById(43));
+console.log(productManager.getProductById(25));
