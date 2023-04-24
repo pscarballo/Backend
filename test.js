@@ -76,8 +76,8 @@ const product1 = {
 
 const productManager = new ProductManager("productos.json");
 
-productManager.addProduct(product);
-productManager.addProduct(product1);
+//productManager.addProduct(product);
+//productManager.addProduct(product1);
 
 //console.log(productManager.getProducts());
 //console.log(productManager.getProductById(0));
