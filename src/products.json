@@ -1,0 +1,51 @@
+[{    
+    "id": 0,
+    "title": "Jordan12",
+    "description": "Zapatillas",
+    "price": 250,
+    "thumbnail":
+      "https://www.comedera.com/wp-content/uploads/2022https://www.snipesusa.com/dw/image/v2/BFKF_PRD/on/demandware.static/-/Sites-snipes-master-catalog/default/dw19fdbccb/images/hi-res/jordan_ct8013-071_06.jpg?sw=800&sh=1004&strip=false/04/Papas-rusticas-shutterstock_2022241940-768x479.jpg",
+    "code": "abc123",
+    "stock": 50
+  },
+    {
+    "id": 1,
+    "title": "Jordan13",
+    "description": "Zapatillas",
+    "price": 220,
+    "thumbnail":
+      "https://www.comedera.com/wp-content/uploads/2022https://www.snipesusa.com/dw/image/v2/BFKF_PRD/on/demandware.static/-/Sites-snipes-master-catalog/default/dw19fdbccb/images/hi-res/jordan_ct8013-071_06.jpg?sw=800&sh=1004&strip=false/04/Papas-rusticas-shutterstock_2022241940-768x479.jpg",
+    "code": "abc124",
+    "stock": 25
+  },
+  {
+    "id": 2,
+    "title": "Jordan14",
+    "description": "Zapatillas",
+    "price": 220,
+    "thumbnail":
+      "https://www.comedera.com/wp-content/uploads/2022https://www.snipesusa.com/dw/image/v2/BFKF_PRD/on/demandware.static/-/Sites-snipes-master-catalog/default/dw19fdbccb/images/hi-res/jordan_ct8013-071_06.jpg?sw=800&sh=1004&strip=false/04/Papas-rusticas-shutterstock_2022241940-768x479.jpg",
+    "code": "abc125",
+    "stock": 26
+  },
+  {
+    "id": 3,
+    "title": "Jordan15",
+    "description": "Zapatillas",
+    "price": 220,
+    "thumbnail":
+      "https://www.comedera.com/wp-content/uploads/2022https://www.snipesusa.com/dw/image/v2/BFKF_PRD/on/demandware.static/-/Sites-snipes-master-catalog/default/dw19fdbccb/images/hi-res/jordan_ct8013-071_06.jpg?sw=800&sh=1004&strip=false/04/Papas-rusticas-shutterstock_2022241940-768x479.jpg",
+    "code": "abc126",
+    "stock": 32
+  },
+  {
+    "id": 4,
+    "title": "Jordan16",
+    "description": "Zapatillas",
+    "price": 220,
+    "thumbnail":
+      "https://www.comedera.com/wp-content/uploads/2022https://www.snipesusa.com/dw/image/v2/BFKF_PRD/on/demandware.static/-/Sites-snipes-master-catalog/default/dw19fdbccb/images/hi-res/jordan_ct8013-071_06.jpg?sw=800&sh=1004&strip=false/04/Papas-rusticas-shutterstock_2022241940-768x479.jpg",
+    "code": "abc127",
+    "stock": 44
+  }
+  ]
