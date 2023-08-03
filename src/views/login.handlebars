@@ -1,0 +1,9 @@
+<h1>LOGIN</h1>
+{{!-- <form action='/auth/login' method='POST'> --}}
+<form action='/api/sessions/login' method='POST'>
+  <input type='text' name='email' placeholder='email' />
+  <input type='text' name='password' placeholder='password' />
+  <input type='submit' value='LOGIN' />
+</form>
+<button onclick="location.href='/api/sessions/register'">Register</button>
+<button onclick="location.href='/api/sessions/logout'">Logout</button>
