@@ -1,4 +1,4 @@
-//NODEMAILER
+//---------------------------------------------------------------//NODEMAILER
 import nodemailer from 'nodemailer';
 export const transport = nodemailer.createTransport({
   service: 'gmail',
@@ -20,10 +20,10 @@ import env from '../config/enviroment.config.js';
 export async function connectMongo() {
   try {
     await connect(env.mongoUrl);
-    logger.info('Conexión exitosa a la base de datos.');
+    logger.info('🖥️  Successful connection to DB.');
   } catch (e) {
-    logger.error('Falló la conexión a la base de datos.');
-    throw 'Falló la conexion';
+    logger.error('DB connection failure.');
+    throw 'Connection failure';
   }
 }
 

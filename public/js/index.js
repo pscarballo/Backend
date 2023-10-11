@@ -1,34 +1,34 @@
 const socket = io();
 
-const inputTitle = document.getElementById("input-title");
-const inputDescription = document.getElementById("input-description");
-const inputCategory = document.getElementById("input-category");
-const inputPrice = document.getElementById("input-price");
-const inputThumbnail = document.getElementById("input-thumbnail");
-const inputCode = document.getElementById("input-code");
-const inputStock = document.getElementById("input-stock");
+const inputTitle = document.getElementById('input-title');
+const inputDescription = document.getElementById('input-description');
+const inputCategory = document.getElementById('input-category');
+const inputPrice = document.getElementById('input-price');
+const inputThumbnail = document.getElementById('input-thumbnail');
+const inputCode = document.getElementById('input-code');
+const inputStock = document.getElementById('input-stock');
 
-const addProduct = document.getElementById("addProductForm");
-const deleteButtons = document.querySelectorAll(".btnDelete");
-const editButtons = document.querySelectorAll(".btnEdit");
-const cardId = document.getElementById("card-id");
-const container = document.getElementById("dinamic-list");
+const addProduct = document.getElementById('addProductForm');
+const deleteButtons = document.querySelectorAll('.btnDelete');
+const editButtons = document.querySelectorAll('.btnEdit');
+const cardId = document.getElementById('card-id');
+const container = document.getElementById('dinamic-list');
 
 function setModalTitle(id) {
-  const modalTitle = document.getElementById("exampleModalLabel");
-  modalTitle.innerText = "Editar Producto con el ID " + id;
+  const modalTitle = document.getElementById('exampleModalLabel');
+  modalTitle.innerText = 'Editar Producto con el ID ' + id;
 }
 
 function saveChanges() {
-  const id = window.localStorage.getItem("id");
+  const id = window.localStorage.getItem('id');
 
-  const inputEditTitle = document.getElementById("input-editTitle");
-  const inputEditDescription = document.getElementById("input-editDescription");
-  const inputEditCategory = document.getElementById("input-editCategory");
-  const inputEditPrice = document.getElementById("input-editPrice");
-  const inputEditThumbnail = document.getElementById("input-editThumbnail");
-  const inputEditCode = document.getElementById("input-editCode");
-  const inputEditStock = document.getElementById("input-editStock");
+  const inputEditTitle = document.getElementById('input-editTitle');
+  const inputEditDescription = document.getElementById('input-editDescription');
+  const inputEditCategory = document.getElementById('input-editCategory');
+  const inputEditPrice = document.getElementById('input-editPrice');
+  const inputEditThumbnail = document.getElementById('input-editThumbnail');
+  const inputEditCode = document.getElementById('input-editCode');
+  const inputEditStock = document.getElementById('input-editStock');
 
   const newProduct = {
     title: inputEditTitle.value,
@@ -40,62 +40,60 @@ function saveChanges() {
     stock: inputEditStock.value,
   };
 
-  socket.emit("productModified", id, newProduct);
+  socket.emit('productModified', id, newProduct);
 
   Swal.fire({
-    position: "center",
-    icon: "success",
-    title: "Producto Modificado",
+    position: 'center',
+    icon: 'success',
+    title: 'Producto Modificado',
     showConfirmButton: true,
-    confirmButtonColor: "#0d6efd",
+    confirmButtonColor: '#0d6efd',
     timer: 1500,
   });
-  const modalElement = document.getElementById("exampleModal");
+  const modalElement = document.getElementById('exampleModal');
   const modalInstance = bootstrap.Modal.getInstance(modalElement);
   modalInstance.hide();
-  modalElement.addEventListener("hidden.bs.modal", () => {
-    const backdropElement = document.querySelector(".modal-backdrop");
+  modalElement.addEventListener('hidden.bs.modal', () => {
+    const backdropElement = document.querySelector('.modal-backdrop');
     if (backdropElement) {
       backdropElement.parentNode.removeChild(backdropElement);
     }
-    document.body.style.overflow = "auto";
+    document.body.style.overflow = 'auto';
   });
 }
 
 // AUMENTAR O DISMINUIR CANTIDAD
-document.addEventListener("DOMContentLoaded", () => {
-  const cartItems = document.querySelectorAll(".cartItem");
-  const totalCartElement = document.querySelector(".totalCart span");
+document.addEventListener('DOMContentLoaded', () => {
+  const cartItems = document.querySelectorAll('.cartItem');
+  const totalCartElement = document.querySelector('.totalCart span');
 
   function calcularSubtotal(cartItem) {
-    const cantidadElement = cartItem.querySelector(".quant");
-    const precioElement = cartItem.querySelector("#precio");
-    const subtotalElement = cartItem.querySelector("#subtotal");
+    const cantidadElement = cartItem.querySelector('.quant');
+    const precioElement = cartItem.querySelector('#precio');
+    const subtotalElement = cartItem.querySelector('#subtotal');
 
     const cantidad = parseFloat(cantidadElement.textContent);
-    const precio = parseFloat(precioElement.textContent.replace("$ ", ""));
+    const precio = parseFloat(precioElement.textContent.replace('$ ', ''));
 
     const subtotal = cantidad * precio;
-    subtotalElement.textContent = "$ " + subtotal;
+    subtotalElement.textContent = '$ ' + subtotal;
   }
 
   function actualizarCantidad(cartItem, cantidad) {
-    const cantidadElement = cartItem.querySelector(".quant");
+    const cantidadElement = cartItem.querySelector('.quant');
     cantidadElement.textContent = cantidad.toString();
     calcularSubtotal(cartItem);
   }
 
   async function actualizarCantidadBackend(cartItem, cantidad) {
-    const cartId = document.querySelector(".cartId").textContent;
-    const productId = cartItem
-      .querySelector(".butonDelete")
-      .getAttribute("data-product-id");
+    const cartId = document.querySelector('.cartId').textContent;
+    const productId = cartItem.querySelector('.butonDelete').getAttribute('data-product-id');
 
     try {
       const response = await fetch(`/cart/${cartId}/products/${productId}`, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ quantity: cantidad }),
       });
@@ -103,23 +101,21 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.ok) {
         const data = await response.json();
         const updatedCart = data.cart;
-        const cantidadElement = cartItem.querySelector(".quant");
+        const cantidadElement = cartItem.querySelector('.quant');
         cantidadElement.textContent = cantidad;
         calcularSubtotal(cartItem);
         actualizarTotalCart();
       } else {
-        console.error(
-          "Error al actualizar la cantidad del producto en el carrito"
-        );
+        console.error('Error al actualizar la cantidad del producto en el carrito');
       }
     } catch (error) {
-      console.error("Error de red:", error);
+      console.error('Error de red:', error);
     }
   }
 
   function botonIncrementarClick(event) {
-    const cartItem = event.target.closest(".cartItem");
-    const cantidadElement = cartItem.querySelector(".quant");
+    const cartItem = event.target.closest('.cartItem');
+    const cantidadElement = cartItem.querySelector('.quant');
     let cantidad = parseFloat(cantidadElement.textContent);
     cantidad++;
     actualizarCantidad(cartItem, cantidad);
@@ -127,8 +123,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function botonDecrementarClick(event) {
-    const cartItem = event.target.closest(".cartItem");
-    const cantidadElement = cartItem.querySelector(".quant");
+    const cartItem = event.target.closest('.cartItem');
+    const cantidadElement = cartItem.querySelector('.quant');
     let cantidad = parseFloat(cantidadElement.textContent);
     if (cantidad > 1) {
       cantidad--;
@@ -140,10 +136,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function actualizarTotalCart() {
     let total = 0;
     cartItems.forEach((cartItem) => {
-      const subtotalElement = cartItem.querySelector("#subtotal");
-      const subtotal = parseFloat(
-        subtotalElement.textContent.replace("$ ", "")
-      );
+      const subtotalElement = cartItem.querySelector('#subtotal');
+      const subtotal = parseFloat(subtotalElement.textContent.replace('$ ', ''));
       total += subtotal;
     });
     totalCartElement.textContent = total;
@@ -152,61 +146,54 @@ document.addEventListener("DOMContentLoaded", () => {
   cartItems.forEach((cartItem) => {
     calcularSubtotal(cartItem);
 
-    const botonIncrementar = cartItem.querySelector(
-      ".butonController:nth-child(1)"
-    );
-    botonIncrementar.addEventListener("click", botonIncrementarClick);
+    const botonIncrementar = cartItem.querySelector('.butonController:nth-child(1)');
+    botonIncrementar.addEventListener('click', botonIncrementarClick);
 
-    const botonDecrementar = cartItem.querySelector(
-      ".butonController:nth-child(2)"
-    );
-    botonDecrementar.addEventListener("click", botonDecrementarClick);
+    const botonDecrementar = cartItem.querySelector('.butonController:nth-child(2)');
+    botonDecrementar.addEventListener('click', botonDecrementarClick);
   });
 
   actualizarTotalCart();
 });
 
 // ELIMINAR DEL CARRITO
-document.addEventListener("DOMContentLoaded", () => {
-  const deleteButtons = document.querySelectorAll(".bi-trash");
-  const cartIdElement = document.querySelector(".cartId");
+document.addEventListener('DOMContentLoaded', () => {
+  const deleteButtons = document.querySelectorAll('.bi-trash');
+  const cartIdElement = document.querySelector('.cartId');
 
   if (cartIdElement) {
     const cartId = cartIdElement.textContent.trim();
     deleteButtons.forEach((button) => {
-      button.setAttribute("data-cart-id", cartId);
-      button.addEventListener("click", async () => {
-        const productId = button.getAttribute("data-product-id");
-        const cartId = button.getAttribute("data-cart-id");
+      button.setAttribute('data-cart-id', cartId);
+      button.addEventListener('click', async () => {
+        const productId = button.getAttribute('data-product-id');
+        const cartId = button.getAttribute('data-cart-id');
         // console.log(`Producto a eliminar del carrito. ID: ${productId}`);
         // console.log(`El carrito tiene el ID: ${cartId}`);
 
         await (async () => {
           const result = await Swal.fire({
-            title: "¿Estás seguro?",
-            text: "Se eliminará el producto de tu carrito",
-            icon: "warning",
+            title: '¿Estás seguro?',
+            text: 'Se eliminará el producto de tu carrito',
+            icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: "#000",
-            cancelButtonColor: "#FF0000",
-            cancelButtonText: "Cancelar",
-            confirmButtonText: "Confirmar",
+            confirmButtonColor: '#000',
+            cancelButtonColor: '#FF0000',
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Confirmar',
           });
 
           if (result.isConfirmed) {
             Swal.fire({
-              title: "Hecho!",
-              text: "Eliminaste el producto",
-              icon: "success",
-              confirmButtonColor: "#000000",
+              title: 'Hecho!',
+              text: 'Eliminaste el producto',
+              icon: 'success',
+              confirmButtonColor: '#000000',
             });
             try {
-              const response = await fetch(
-                `/cart/${cartId}/products/${productId}`,
-                {
-                  method: "DELETE",
-                }
-              );
+              const response = await fetch(`/cart/${cartId}/products/${productId}`, {
+                method: 'DELETE',
+              });
 
               if (response.ok) {
                 // console.log("Producto eliminado del carrito con éxito.");
@@ -223,34 +210,32 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const vaciarCarritoButton = document.getElementById(
-    "carrito-acciones-vaciar"
-  );
-  vaciarCarritoButton.addEventListener("click", async () => {
+  const vaciarCarritoButton = document.getElementById('carrito-acciones-vaciar');
+  vaciarCarritoButton.addEventListener('click', async () => {
     const cartId = cartIdElement.textContent.trim();
 
     await Swal.fire({
-      title: "¿Estás seguro?",
-      text: "Se vaciará tu carrito",
-      icon: "warning",
+      title: '¿Estás seguro?',
+      text: 'Se vaciará tu carrito',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#000",
-      cancelButtonColor: "#FF0000",
-      cancelButtonText: "Cancelar",
-      confirmButtonText: "Confirmar",
+      confirmButtonColor: '#000',
+      cancelButtonColor: '#FF0000',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Confirmar',
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           const response = await fetch(`/cart/${cartId}`, {
-            method: "DELETE",
+            method: 'DELETE',
           });
 
           if (response.ok) {
             // console.log("Carrito vaciado con éxito.");
-            Swal.fire("Hecho!", "Has vaciado el carrito", "success");
+            Swal.fire('Hecho!', 'Has vaciado el carrito', 'success');
             setTimeout(() => {
               location.reload();
-              window.location.href = "/products";
+              window.location.href = '/products';
             }, 1500);
           } else {
             // console.error("Error al vaciar el carrito.");
@@ -264,40 +249,39 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // AGREGAR AL CARRITO
-document.addEventListener("DOMContentLoaded", () => {
-  const addToCartButtons = document.querySelectorAll(".btnCart");
-  const cartLink = document.getElementById("cartLink");
-  const cartId = cartLink.getAttribute("href").split("/").pop();
-  const userRole = document.getElementById("role").textContent;
+document.addEventListener('DOMContentLoaded', () => {
+  const addToCartButtons = document.querySelectorAll('.btnCart');
+  const cartLink = document.getElementById('cartLink');
+  const cartId = cartLink.getAttribute('href').split('/').pop();
+  const userRole = document.getElementById('role').textContent;
 
   addToCartButtons.forEach((button) => {
-    button.addEventListener("click", async () => {
-      const productId = button.getAttribute("data-product-id");
+    button.addEventListener('click', async () => {
+      const productId = button.getAttribute('data-product-id');
       // console.log(`Producto agregado al carrito. ID: ${productId}`);
       // console.log(`El carrito tiene el ID: ${cartId}`);
 
       try {
         const response = await fetch(`/cart/${cartId}/products/${productId}`, {
-          method: "POST",
+          method: 'POST',
         });
 
         if (response.ok) {
-          if (userRole === "user") {
+          if (userRole === 'user') {
             Toastify({
-              text: "Producto Agregado al Carrito",
+              text: 'Producto Agregado al Carrito',
               duration: 3000,
               newWindow: true,
               close: true,
-              gravity: "bottom",
-              position: "left",
+              gravity: 'bottom',
+              position: 'left',
               stopOnFocus: true,
               style: {
-                background: "#000",
+                background: '#000',
               },
             }).showToast();
 
-            const cartQuantityElement =
-              document.querySelector("#cartLink span");
+            const cartQuantityElement = document.querySelector('#cartLink span');
             if (cartQuantityElement) {
               const currentQuantity = parseInt(cartQuantityElement.innerText);
               const newQuantity = currentQuantity + 1;
@@ -305,36 +289,36 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           } else {
             Swal.fire({
-              title: "Solo los usuarios pueden agregar Productos al Carrito",
-              icon: "warning",
-              confirmButtonText: "Aceptar",
-              confirmButtonColor: "#000",
+              title: 'Solo los usuarios pueden agregar Productos al Carrito',
+              icon: 'warning',
+              confirmButtonText: 'Aceptar',
+              confirmButtonColor: '#000',
               onAfterClose: () => {
-                window.location.href = "/home";
+                window.location.href = '/home';
               },
               timer: 3000,
             });
             setTimeout(() => {
-              window.location.href = "/home";
+              window.location.href = '/home';
             }, 3000);
           }
         } else {
-          console.error("Error al agregar el producto al carrito.");
+          console.error('Error al agregar el producto al carrito.');
         }
       } catch (error) {
-        console.error("Error de red:", error);
+        console.error('Error de red:', error);
       }
     });
   });
 });
 
 // GUARDAR COMPRA
-document.addEventListener("DOMContentLoaded", function () {
-  const comprarButton = document.getElementById("carrito-acciones-comprar ");
-  const userEmail = document.getElementById("email").textContent;
-  comprarButton.addEventListener("click", async function () {
-    const cartId = document.querySelector(".cartId").textContent;
-    const totalCart = document.querySelector(".totalCart span").textContent;
+document.addEventListener('DOMContentLoaded', function () {
+  const comprarButton = document.getElementById('carrito-acciones-comprar ');
+  const userEmail = document.getElementById('email').textContent;
+  comprarButton.addEventListener('click', async function () {
+    const cartId = document.querySelector('.cartId').textContent;
+    const totalCart = document.querySelector('.totalCart span').textContent;
     const user = userEmail;
 
     const cartData = {
@@ -344,9 +328,9 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     fetch(`/cart/${cartId}/purchase`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ cartData }),
     })
@@ -354,27 +338,27 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         // console.log("Compra realizada:", data);
         Swal.fire({
-          title: "¡Gracias por tu compra!",
-          text: "Podrás visualizarla en MIS COMPRAS.",
-          icon: "success",
-          confirmButtonText: "Aceptar",
-          confirmButtonColor: "#000",
+          title: '¡Gracias por tu compra!',
+          text: 'Podrás visualizarla en MIS COMPRAS.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#000',
           onAfterClose: () => {
-            window.location.href = "/home";
+            window.location.href = '/home';
           },
           timer: 3000,
         });
         setTimeout(() => {
-          window.location.href = "/home";
+          window.location.href = '/home';
         }, 3000);
       })
       .catch((error) => {
-        console.error("Error en la compra:", error);
+        console.error('Error en la compra:', error);
       });
   });
 });
 
-addProduct.addEventListener("submit", (e) => {
+addProduct.addEventListener('submit', (e) => {
   e.preventDefault();
   const newProduct = {
     title: inputTitle.value,
@@ -386,51 +370,51 @@ addProduct.addEventListener("submit", (e) => {
     stock: inputStock.value,
   };
   Swal.fire({
-    position: "center",
-    icon: "success",
-    title: "Producto Creado",
+    position: 'center',
+    icon: 'success',
+    title: 'Producto Creado',
     showConfirmButton: true,
-    confirmButtonColor: "#000",
+    confirmButtonColor: '#000',
     timer: 1500,
   });
-  socket.emit("new-product", newProduct);
+  socket.emit('new-product', newProduct);
 });
 
-container.addEventListener("click", (event) => {
-  if (event.target.classList.contains("btnEdit")) {
+container.addEventListener('click', (event) => {
+  if (event.target.classList.contains('btnEdit')) {
     const button = event.target;
-    const cardId = button.getAttribute("data-id");
-    window.localStorage.setItem("id", cardId);
+    const cardId = button.getAttribute('data-id');
+    window.localStorage.setItem('id', cardId);
 
-    const modalElement = document.getElementById("exampleModal");
+    const modalElement = document.getElementById('exampleModal');
     const modal = new bootstrap.Modal(modalElement);
     modal.show();
   }
 
-  if (event.target.classList.contains("btnDelete")) {
+  if (event.target.classList.contains('btnDelete')) {
     const button = event.target;
     const cardId = button.dataset.id;
 
     Swal.fire({
-      title: "¿Estás seguro?",
-      text: "Se eliminará el producto del array original",
-      icon: "warning",
+      title: '¿Estás seguro?',
+      text: 'Se eliminará el producto del array original',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#000",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, borrar",
-      cancelButtonText: "Cancelar",
+      confirmButtonColor: '#000',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrar',
+      cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
         const productId = cardId;
-        socket.emit("delete-product", productId);
-        Swal.fire("Hecho!", "Eliminaste el producto", "success");
+        socket.emit('delete-product', productId);
+        Swal.fire('Hecho!', 'Eliminaste el producto', 'success');
       }
     });
   }
 });
 
-socket.on("products", (producto) => {
+socket.on('products', (producto) => {
   container.innerHTML = producto
     .map((prod) => {
       return `
@@ -457,7 +441,7 @@ socket.on("products", (producto) => {
           <div class="btnContainer">
             <a
               href="#"
-              class="btn btn-primary btn-sm btnEdit"
+              class="btn btn-danger btn-sm btnEdit"
               data-id=${prod._id}
               data-bs-toggle="modal"
               data-bs-target="#exampleModal"
@@ -598,7 +582,7 @@ socket.on("products", (producto) => {
             >Cancelar</button>
             <button
               type="button"
-              class="btn btn-primary"
+              class="btn btn-danger"
               id="btn-edit"
               onclick="saveChanges()"
             >Guardar</button>
@@ -607,5 +591,5 @@ socket.on("products", (producto) => {
       </div>
     </div>`;
     })
-    .join("");
+    .join('');
 });

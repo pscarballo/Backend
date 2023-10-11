@@ -39,7 +39,7 @@ connectMongo();
 
 // HTTP SERVER
 const httpServer = app.listen(PORT, () => {
-  logger.info(`Levantando en puerto http://localhost:${PORT}`);
+  logger.info(`🚀 App listening on http://localhost:${PORT}`);
 });
 
 connectSocketServer(httpServer);
@@ -83,7 +83,7 @@ app.use(passport.session());
 // import __dirname from “./utils.js”;
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
-console.log('este----->', __dirname);
+// console.log('este----->', __dirname);
 
 //Swagger
 const swaggerOptions = {
@@ -178,8 +178,8 @@ app.post('/recover-mail', async (req, res) => {
     subject: 'recuperarrrrr cheee!!!',
     html: `
 		<div>
-			<p>Tu codigo para cambiar pass es ${token}</p>
-			<a href="${env.apiUrl}/recover-pass?token=${token}&email=${email}">cambiar?</a>				
+			 <p>Tu codigo para cambiar pass es ${token}</p>
+			 <a href="${env.apiUrl}/recover-pass?token=${token}&email=${email}">cambiar?</a>				
 		</div>
 		`,
   });
@@ -189,7 +189,7 @@ app.post('/recover-mail', async (req, res) => {
 });
 
 app.get('*', (req, res, next) => {
-  console.log('que onda?');
+  // console.log('que onda?');
   try {
     CustomError.createError({
       name: 'Page Not Found',

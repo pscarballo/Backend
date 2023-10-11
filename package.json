@@ -8,10 +8,10 @@
 		"node": "16.x"
 	},
 	"scripts": {
-		"test": "mocha test/supertest.test.js",
-		"dev": "nodemon src/app.js",
-		"start": "node src/app.js",
-		"qa": "node src/app.js"
+		"dev": "nodemon src/app.js --mode DEVELOPMENT",
+		"test": "mocha --timeout 10000 test/supertest.test.js",
+		"qa": "node src/app.js",
+		"start": "node src/app.js --mode PRODUCTION"		
 
 	},
 	"repository": {
