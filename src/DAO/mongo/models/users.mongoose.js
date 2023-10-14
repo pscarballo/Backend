@@ -8,6 +8,7 @@ const schema = new Schema({
   email: { type: String, required: true, max: 100, unique: true },
   password: { type: String, required: false, max: 100 },
   role: { type: String, default: 'user' },
+  premium: { type: Boolean, default: false },
   cartID: {
     type: String,
     required: true,
@@ -26,7 +27,7 @@ const schema = new Schema({
     default: [],
   },
 
-  last_connection: { type: Number },
+  last_connection: { type: Date, default: new Date() },
 });
 
 export const UsersMongoose = model('users', schema);

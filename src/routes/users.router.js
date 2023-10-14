@@ -1,6 +1,6 @@
-import express from "express";
+import express from 'express';
 export const usersRouter = express.Router();
-import { usersController } from "../controllers/users.controller.js";
-import { checkAdmin } from "../middlewares/main.js";
+import { usersController } from '../controllers/users.controller.js';
+import { checkAdmin } from '../middlewares/main.js';
 
-usersRouter.get("/", checkAdmin, usersController.readByrender);
+usersRouter.get('/', checkAdmin, usersController.readByrender);

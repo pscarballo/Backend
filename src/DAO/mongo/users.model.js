@@ -1,5 +1,6 @@
 import { UsersMongoose } from '../mongo/models/users.mongoose.js';
 import { logger } from '../../utils/main.js';
+import { subDays } from 'date-fns';
 
 class UsersModel {
   async readOne(email) {
@@ -36,8 +37,10 @@ class UsersModel {
           email: true,
           password: true,
           role: true,
+          premium: true,
           cartID: true,
           purchase_made: true,
+          last_connection: true,
         }
       );
       return users;
@@ -85,14 +88,41 @@ class UsersModel {
     }
   }
 
-  async delete(_id) {
+  //---------------------------------------------------------
+  async findInactive(today) {
     try {
-      const deletedUser = await UsersMongoose.deleteOne({ _id: _id });
-      return deletedUser;
+      const inactiveUsers = await UsersMongoose.find({
+        last_connection: { $lt: subDays(today, 2) },
+      });
+      console.log('models', inactiveUsers);
+      return inactiveUsers;
     } catch (e) {
-      logger.error(e);
+      logger.error(e.message);
+      throw e;
     }
   }
+
+  async deleteInactiveUser(findedUser) {
+    try {
+      const deletedUser = await UsersMongoose.deleteMany({
+        _id: { $in: findedUser.map((user) => user._id) },
+      });
+      console.log('eliminado', deletedUser);
+      // return deletedUser;
+    } catch (e) {
+      logger.error(e.message);
+      throw e;
+    }
+  }
+
+  // // // async delete(_id) {
+  // // //   try {
+  // // //     const deletedUser = await UsersMongoose.deleteOne({ _id: _id });
+  // // //     return deletedUser;
+  // // //   } catch (e) {
+  // // //     logger.error(e);
+  // // //   }
+  // // // }
 }
 
 export const usersModel = new UsersModel();

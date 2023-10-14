@@ -1,5 +1,6 @@
 import UsersDTO from './DTO/users.dto.js';
 import { logger } from '../utils/main.js';
+import { UsersMongoose } from '../DAO/mongo/models/users.mongoose.js';
 
 class SessionsController {
   async viewLogin(req, res) {
@@ -22,16 +23,44 @@ class SessionsController {
     }
   }
 
+  // async logout(req, res) {
+  //   try {
+  //     req.session.destroy((err) => {
+  //       if (err) {
+  //         console.error('Error al cerrar sesión:', err);
+  //       }
+  //       res.redirect('/');
+  //     });
+  //   } catch (e) {
+  //     logger.info(e);
+  //   }
+  // }
   async logout(req, res) {
     try {
-      req.session.destroy((err) => {
-        if (err) {
-          console.error('Error al cerrar sesión:', err);
+      if (req.session && req.session.user) {
+        const userId = req.session.user._id;
+        const user = await UsersMongoose.findById(userId);
+        if (user) {
+          user.last_connection = new Date();
+
+          await user.save();
         }
-        res.redirect('/');
-      });
+        req.session.destroy((err) => {
+          if (err) {
+            console.error('Error al cerrar sesión:', err);
+          }
+          res.redirect('/');
+        });
+      } else {
+        req.session.destroy((err) => {
+          if (err) {
+            console.error('Error al cerrar sesión:', err);
+          }
+          res.redirect('/');
+        });
+      }
     } catch (e) {
-      logger.info(e);
+      logger.error(e.message);
     }
   }
 
@@ -87,6 +116,7 @@ class SessionsController {
         role: req.user.role,
         cartId: req.user.cartID,
         purchase_made: req.user.purchase_made,
+        last_connection: new Date(),
       };
       return res.redirect('/home');
     } catch (e) {

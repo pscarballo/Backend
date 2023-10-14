@@ -31,6 +31,29 @@ class UserService {
     }
   }
 
+  async deleteInactiveUser() {
+    try {
+      const today = new Date();
+      //.getDate()
+      const findedUser = await usersModel.findInactive(today);
+      console.log('service', findedUser);
+      const deletedUser = await usersModel.deleteInactiveUser(findedUser);
+
+      // twoDaysAgo.setDate(new Date().getDate() - 2 * 360 - 145987 + parseInt(days));
+      // console.log('two days ago', JSON.stringify({ date: twoDaysAgo }));
+    } catch (e) {}
+  }
+
+  // async deleteInactive(findedUser) {
+  //   const deletedUser = await usersModel.deleteInactiveUser(findedUser);
+  //   try {
+  //     const users = await usersModel.deleteInactive();
+  //     return users;
+  //   } catch (e) {
+  //     logger.error(e);
+  //   }
+  // }
+
   async readById(_id) {
     try {
       const user = await usersModel.readById(_id);
@@ -54,14 +77,14 @@ class UserService {
     }
   }
 
-  async delete(_id) {
-    try {
-      const userDeleted = await usersModel.delete(_id);
-      return userDeleted;
-    } catch (e) {
-      logger.error(e);
-    }
-  }
+  // async delete(_id) {
+  //   try {
+  //     const userDeleted = await usersModel.delete(_id);
+  //     return userDeleted;
+  //   } catch (e) {
+  //     logger.error(e);
+  //   }
+  // }
 
   async authenticateUser(email, password) {
     try {

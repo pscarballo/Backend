@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
             Swal.fire('Hecho!', 'Has vaciado el carrito', 'success');
             setTimeout(() => {
               location.reload();
-              window.location.href = '/products';
+              window.location.href = 'api/products';
             }, 1500);
           } else {
             // console.error("Error al vaciar el carrito.");
@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', function () {
       total: totalCart,
     };
 
-    fetch(`/cart/${cartId}/purchase`, {
+    fetch(`api/carts/${cartId}/purchase`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function () {
     })
       .then((response) => response.json())
       .then((data) => {
-        // console.log("Compra realizada:", data);
+        // console.log('Compra realizada:', data);
         Swal.fire({
           title: '¡Gracias por tu compra!',
           text: 'Podrás visualizarla en MIS COMPRAS.',

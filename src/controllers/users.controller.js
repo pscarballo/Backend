@@ -3,23 +3,23 @@ import { userService } from '../services/users.service.js';
 import { logger } from '../utils/main.js';
 
 class UserController {
-  async read(req, res) {
-    try {
-      const users = await userService.read();
-      return res.status(200).json({
-        status: 'success',
-        msg: 'listado de usuarios',
-        payload: users,
-      });
-    } catch (e) {
-      logger.error(e);
-      return res.status(500).json({
-        status: 'error',
-        msg: 'something went wrong :(',
-        payload: {},
-      });
-    }
-  }
+  // async read(req, res) {
+  //   try {
+  //     const users = await userService.read();
+  //     return res.status(200).json({
+  //       status: 'success',
+  //       msg: 'listado de usuarios',
+  //       payload: users,
+  //     });
+  //   } catch (e) {
+  //     logger.error(e);
+  //     return res.status(500).json({
+  //       status: 'error',
+  //       msg: 'something went wrong :(',
+  //       payload: {},
+  //     });
+  //   }
+  // }
 
   async readById(req, res) {
     try {
@@ -35,17 +35,17 @@ class UserController {
     }
   }
 
-  async readByrender(req, res) {
+  async read(req, res) {
     try {
       const data = await userService.read();
       const dataParse = data.map((user) => {
         return {
-          id: user._id,
+          // id: user._id,
           firstName: user.firstName,
           lastName: user.lastName,
-          age: user.age,
+          // age: user.age,
           email: user.email,
-          password: user.password,
+          // password: user.password,
           role: user.role,
         };
       });
@@ -58,6 +58,35 @@ class UserController {
       res.status(501).send({ status: 'error', msg: 'Error en el servidor', error: err });
     }
   }
+  //----------------------------------------------------------------------------------------------------------------
+  async deleteInactive(req, res) {
+    try {
+      const deleteinactiveUsers = await userService.deleteInactiveUser();
+      // await userService.deleteInactiveUsers(inactiveUsers);
+      // const dataDelete = data.map((user) => {
+      // // // // return {
+      // // // //   // id: user._id,
+      // // // //   // firstName: user.firstName,
+      // // // //   // lastName: user.lastName,
+      // // // //   // // age: user.age,
+      // // // //   // email: user.email,
+      // // // //   // // password: user.password,
+      // // // //   // role: user.role,
+      // // // //   lastConnection: user.last_connection,
+      // };
+      // });
+      // // // // // const firstName = req.session.user.firstName;
+      // // // // // const role = req.session.user.role;
+      // // // // // const last = req.session.user.lastConnection;
+      // // // // // console.log(last);
+      // // // // // const title = 'JORDAN® - Users';
+      // // // // // return res.status(200).render('users', { dataDelete, title, firstName, role, last });
+    } catch (err) {
+      // logger.error(err);
+      // res.status(501).send({ status: 'error', msg: 'Error en el servidor', error: err });
+    }
+  }
+  //-------------------------------------------------------------------------------------------------------------------------------------
 
   // async create(req, res) {
   //   try {
@@ -124,32 +153,32 @@ class UserController {
     }
   }
 
-  async delete(req, res) {
-    try {
-      const { _id } = req.params;
-      const result = await userService.delete(_id);
-      if (result?.deletedCount > 0) {
-        return res.status(200).json({
-          status: 'success',
-          msg: 'user deleted',
-          payload: {},
-        });
-      } else {
-        return res.status(404).json({
-          status: 'error',
-          msg: 'user not found',
-          payload: {},
-        });
-      }
-    } catch (e) {
-      logger.error(e);
-      return res.status(500).json({
-        status: 'error',
-        msg: 'something went wrong :(',
-        payload: {},
-      });
-    }
-  }
+  // // // // // async delete(req, res) {
+  // // // // //   try {
+  // // // // //     const { _id } = req.params;
+  // // // // //     const result = await userService.delete(_id);
+  // // // // //     if (result?.deletedCount > 0) {
+  // // // // //       return res.status(200).json({
+  // // // // //         status: 'success',
+  // // // // //         msg: 'user deleted',
+  // // // // //         payload: {},
+  // // // // //       });
+  // // // // //     } else {
+  // // // // //       return res.status(404).json({
+  // // // // //         status: 'error',
+  // // // // //         msg: 'user not found',
+  // // // // //         payload: {},
+  // // // // //       });
+  // // // // //     }
+  // // // // //   } catch (e) {
+  // // // // //     logger.error(e);
+  // // // // //     return res.status(500).json({
+  // // // // //       status: 'error',
+  // // // // //       msg: 'something went wrong :(',
+  // // // // //       payload: {},
+  // // // // //     });
+  // // // // //   }
+  // // // // // }
 
   async loginUser(email, password) {
     try {

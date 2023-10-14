@@ -2,9 +2,9 @@
 	{{#if firstName}}
 		<div class="flex-row text-end mt-3 ms-3" style="width: 99%;">
 			<div class="d-flex justify-content-end align-items-center">
-				<h5>Hola, {{firstName}}. Tu rol es <span id="role">{{role}}</span></h5>
+				<h5>Hola, {{firstName}}. Tu Rol es <span id="role">{{role}}</span></h5>
 				<a href="/api/sessions/logout" class="btn btn-danger btn-sm btnLogin ms-2 me-5 mb-1">
-					<i class="bi bi-box-arrow-left me-2"></i>Logout
+					<i class=""></i>Logout
 				</a>
 			</div>
 		</div>
@@ -16,7 +16,7 @@
 	</div>
 	<div class="floatCartButton">
 		<button class="fixed-bottom-right btn btn-danger btn-lg me-2">
-			<a id="cartLink" href="/cart/{{cartId}}" class="text-white" style="text-decoration: none;">
+			<a id="cartLink" href="/api/carts/{{cartId}}" class="text-white" style="text-decoration: none;">
 				<i class="bi bi-cart text-white me-2" style="text-decoration: none;"></i>
 				<span>{{cartQuantity}}</span>
 			</a>
@@ -46,6 +46,7 @@
 									class="btn btn-dark btn-sm me-2 btnCart"
 									data-product-id="{{this._id}}"
 									data-cart-id="{{cartId}}"
+									data-owner="{{owner}}"
 								>Agregar al Carrito</button>
 							</div>
 						</div>
@@ -56,10 +57,10 @@
 				<p class="fs-3">
 					{{#if hasPrevPage}}
 						<button style="border: none;" class="btn btn-transparent p-0 mb-1 fs-3">
-							<a href="/products/?pagina=1"><i class="bi bi-arrow-bar-left"></i></a>
+							<a href="/api/products/?pagina=1"><i class="bi bi-arrow-bar-left"></i></a>
 						</button>
 						<button style="border: none" class="btn btn-transparent p-0 mb-1 fs-3">
-							<a href="/products/?pagina={{prevPage}}"><i class="bi bi-arrow-left-circle-fill"></i></a>
+							<a href="/api/products/?pagina={{prevPage}}"><i class="bi bi-arrow-left-circle-fill"></i></a>
 						</button>
 					{{/if}}
 					Pagina:
@@ -69,10 +70,10 @@
 
 					{{#if hasNextPage}}
 						<button style="border: none" class="btn btn-transparent p-0 mb-1 fs-3"><a
-								href="/products/?pagina={{nextPage}}"
+								href="/api/products/?pagina={{nextPage}}"
 							><i class="bi bi-arrow-right-circle-fill"></i></a></button>
 						<button style="border: none" class="btn btn-transparent p-0 mb-1 fs-3"><a
-								href="/products/?pagina={{totalPages}}"
+								href="/api/products/?pagina={{totalPages}}"
 							><i class="bi bi-arrow-bar-right"></i></a></button>
 					{{/if}}
 				</p>

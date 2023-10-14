@@ -9,22 +9,22 @@ import FileStore from 'session-file-store';
 import env from './config/enviroment.config.js';
 import { iniPassport } from './config/passport.config.js';
 import { errorHandler } from './middlewares/main.js';
-import { cartsApiRouter } from './routes/carts-api.router.js';
-import { cartsRouter } from './routes/carts.router.js';
-import { errorRouter } from './routes/error.router.js';
-import { home } from './routes/home.router.js';
-import { loggers } from './routes/loggers.router.js';
-import { login } from './routes/login.router.js';
-import { mockingProductsRouter } from './routes/mocking-products.router.js';
-import { productsAdminRouter } from './routes/products-admin-router.js';
-import { productsApiRouter } from './routes/products-api.router.js';
-import { productsRouter } from './routes/products.router.js';
-import { purchasesRouter } from './routes/purchases.router.js';
+import { cartsApiRouter } from './Routes/carts-api.router.js';
+import { cartsRouter } from './Routes/carts.router.js';
+import { errorRouter } from './Routes/error.Router.js';
+import { home } from './Routes/home.Router.js';
+import { loggers } from './Routes/loggers.Router.js';
+import { login } from './Routes/login.Router.js';
+import { mockingProductsRouter } from './Routes/mocking-products.Router.js';
+import { productsAdminRouter } from './Routes/products-admin-Router.js';
+import { productsApiRouter } from './Routes/products-api.Router.js';
+// import { productsRouter } from './Routes/products.Router.js';
+import { purchasesRouter } from './Routes/purchases.Router.js';
 import { sessionsRouter } from './routes/sessions.router.js';
-import { testChatRouter } from './routes/test-chat.router.js';
-import { apiTickets } from './routes/tickets.router.js';
+// import { testChatRouter } from './Routes/test-chat.Router.js';
+import { apiTickets } from './Routes/tickets.Router.js';
 import { usersApiRouter } from './routes/users-api.router.js';
-import { usersRouter } from './routes/users.router.js';
+// import { usersRouter } from './Routes/users.Router.js';
 import CustomError from './services/errors/custom-error.js';
 import Errors from './services/errors/enums.js';
 import { connectMongo, connectSocketServer, createHash, logger, transport } from './utils/main.js';
@@ -109,28 +109,28 @@ app.use('/api/mockingproducts', mockingProductsRouter);
 app.use('/loggerTest', loggers);
 app.use('/api/tickets', apiTickets);
 app.use('/api/sessions', sessionsRouter);
-app.get('/api/sessions/github', passport.authenticate('github', { scope: ['user:email'] }));
-app.get('/api/sessions/githubcallback', passport.authenticate('github', { failureRedirect: '/error' }), (req, res) => {
-  req.session.user = {
-    firstName: req.user.firstName,
-    role: req.user.role,
-  };
-  res.redirect('/home');
-});
-// PLANTILLAS
+// app.get('/api/sessions/github', passport.authenticate('github', { scope: ['user:email'] }));
+// app.get('/api/sessions/githubcallback', passport.authenticate('github', { failureRedirect: '/error' }), (req, res) => {
+//   req.session.user = {
+//     firstName: req.user.firstName,
+//     role: req.user.role,
+//   };
+//   res.redirect('/home');
+// });
+// ---------------------------------------------------------------------------------------------------------PLANTILLAS
 app.use('/', login);
 app.use('/home', home);
-app.use('/products', productsRouter);
+// app.use('/products', productsRouter);
 app.use('/products-admin', productsAdminRouter);
-app.use('/users', usersRouter);
+// app.use('/users', usersRouter);
 app.use('/cart', cartsRouter);
 app.use('/purchases', purchasesRouter);
-app.use('/test-chat', testChatRouter);
-app.use('/error', errorRouter);
-
+// app.use('/test-chat', testChatRouter);
+// app.use('/error', errorRouter);
+//---------------------------------------------------------------------------------------------------------------------------
 //TODO DEJAR PROLIJO CON TODO EN CAPAS
-app.get('/recover-mail', (_, res) => {
-  res.render('recover-mail');
+app.get('/recoverMail', (_, res) => {
+  res.render('recoverMail');
 });
 
 //TODO DEJAR PROLIJO CON TODO EN CAPAS
@@ -159,7 +159,7 @@ app.get('/recover-pass', async (req, res) => {
 });
 
 //TODO DEJAR PROLIJO CON TODO EN CAPAS
-app.post('/recover-mail', async (req, res) => {
+app.post('/recoverMail', async (req, res) => {
   //TODO CHEQUEAR QUE SEA UN EMAIL VALIDO (buscar la funcion regex en stackverflow)
   const { email } = req.body;
   //TODO CHEQUEAR SI EXISTE ESTE EMAIL EN LA BASE DE DATOS
@@ -175,11 +175,11 @@ app.post('/recover-mail', async (req, res) => {
   const result = await transport.sendMail({
     from: env.googleEmail,
     to: email,
-    subject: 'recuperarrrrr cheee!!!',
+    subject: 'Password Recovery',
     html: `
 		<div>
-			 <p>Tu codigo para cambiar pass es ${token}</p>
-			 <a href="${env.apiUrl}/recover-pass?token=${token}&email=${email}">cambiar?</a>				
+			 <p>Password change code ${token}</p>
+			 <a href="${env.apiUrl}/recover-pass?token=${token}&email=${email}">Click here to change</a>				
 		</div>
 		`,
   });
@@ -189,7 +189,7 @@ app.post('/recover-mail', async (req, res) => {
 });
 
 app.get('*', (req, res, next) => {
-  // console.log('que onda?');
+  console.log('que onda?');
   try {
     CustomError.createError({
       name: 'Page Not Found',

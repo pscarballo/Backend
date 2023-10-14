@@ -48,7 +48,7 @@ class ProductsController {
 
       if (env.persistence === 'MONGO') {
         const plainProducts = data.docs.map((doc) => doc.toObject());
-        const title = 'Listado de Productos';
+        const title = 'Lista de Productos';
         return res.status(200).render('products', {
           title,
           firstName,

@@ -8,7 +8,7 @@
         <div class='d-flex justify-content-center align-items-center flex-column bg-dark mt-3' style='border-radius: 20px 20px 20px 20px'>
           <div class='tab-content'>
             <div class='tab-pane fade show active' id='pills-login' role='tabpanel' aria-labelledby='tab-login'>
-              <form action='/recover-mail' method='post' style='width: 300px; padding: 10px;'>
+              <form action='/recoverMail' method='post' style='width: 300px; padding: 10px;'>
                 <div class='text-center text-white mb-3'>
                   <p>Recover:</p>
 
@@ -17,7 +17,7 @@
                 <div class='mb-4'>
                   <div class='form-floating mb-3'>
                     <input type='email' class='form-control border-0 border-bottom border-dark' id='inputEmailRegister' name='email' placeholder='Email' />
-                    <label for='input-passwordLogin'><i class='bi bi-envelope-at me-1'></i>Email</label>
+                    <label for='input-passwordLogin'><i class=''></i>Email</label>
                   </div>
 
                   <div class='w-100 mt-4 d-flex justify-content-center align-items-center flex-column text-white'>
@@ -25,12 +25,12 @@
                       Recover
                     </button>
                     <div class='w-100 d-flex justify-content-between align-items-center flex-column gap-3'>
-                      <div class='form-check w-100 d-flex justify-content-center align-items-center'>
+                      {{!-- <div class='form-check w-100 d-flex justify-content-center align-items-center'>
                         <input class='form-check-input me-2' type='checkbox' value='' id='loginCheck' checked />
                         <label class='form-check-label' for='loginCheck'>Remember me</label>
-                      </div>
+                      </div> --}}
                       <div class='row w-100 text-center'>
-                        <a href='/recover-mail'>Forgot password?</a>
+                        <a href='/recoverMail'>Forgot password?</a>
                       </div>
                       <div class='row'>
                         <p>Not a member?
