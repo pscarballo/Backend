@@ -32,19 +32,19 @@
               <div class="cartItem">
                 <img
                   class="cartImg"
-                  src=".{{this.product.thumbnail}}"
+                  src="/{{this.product.thumbnail}}"
                   alt="{{this.product.title}}"
                 />
                 <div class="cartHead">
-                  <p class="titles titulo">Titulo</p>
+                  <p class="titles titulo">Title</p>
                   <p class="content">{{this.product.title}}</p>
                 </div>
                 <div class="cartHead description">
-                  <p class="titles">Descripcion</p>
+                  <p class="titles">Description</p>
                   <p class="content">{{this.product.description}}</p>
                 </div>
                 <div class="cartHead">
-                  <p class="titles">Cantidad</p>
+                  <p class="titles">Quantity</p>
                   <div class="cartQuant">
                     <p id="cantidad" class="content quant">{{this.quantity}}</p>
                     <div class="cartQuantController">
@@ -54,7 +54,7 @@
                   </div>
                 </div>
                 <div class="cartHead">
-                  <p class="titles">Precio</p>
+                  <p class="titles">Price</p>
                   <p id="precio" class="content">$ {{this.product.price}}</p>
                 </div>
                 <div class="cartHead">
@@ -71,7 +71,7 @@
           {{else}}
             <div class="alert alert-danger" role="alert">
               <i class="bi bi-exclamation-triangle fs-4"></i>
-              TU CARRITO ESTÁ VACÍO. AGREGA PRODUCTOS PARA CONTINUAR.
+              EMPTY CART,PLEASE CHOOSE A PRODUCT.
             </div>
             <button class="btn btn-dark btn-lg mt-2 me-3">
               <a

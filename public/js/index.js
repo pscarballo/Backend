@@ -232,10 +232,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
           if (response.ok) {
             // console.log("Carrito vaciado con éxito.");
-            Swal.fire('Hecho!', 'Has vaciado el carrito', 'success');
+            Swal.fire('Successful!', 'Cart is empty', 'success');
             setTimeout(() => {
               location.reload();
-              window.location.href = 'api/products';
+              window.location.href = '';
             }, 1500);
           } else {
             // console.error("Error al vaciar el carrito.");
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
               position: 'left',
               stopOnFocus: true,
               style: {
-                background: '#000',
+                background: 'red',
               },
             }).showToast();
 
@@ -313,50 +313,87 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // GUARDAR COMPRA
-document.addEventListener('DOMContentLoaded', function () {
-  const comprarButton = document.getElementById('carrito-acciones-comprar ');
-  const userEmail = document.getElementById('email').textContent;
-  comprarButton.addEventListener('click', async function () {
-    const cartId = document.querySelector('.cartId').textContent;
-    const totalCart = document.querySelector('.totalCart span').textContent;
-    const user = userEmail;
+const ComprarButton = document.getElementById('carrito-acciones-comprar');
+ComprarButton.addEventListener('click', async () => {
+  // const cartId = cartIdElement.textContent.trim();
 
-    const cartData = {
-      usuario: user,
-      cart_id: cartId,
-      total: totalCart,
-    };
-
-    fetch(`api/carts/${cartId}/purchase`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ cartData }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log('Compra realizada:', data);
-        Swal.fire({
-          title: '¡Gracias por tu compra!',
-          text: 'Podrás visualizarla en MIS COMPRAS.',
-          icon: 'success',
-          confirmButtonText: 'Aceptar',
-          confirmButtonColor: '#000',
-          onAfterClose: () => {
-            window.location.href = '/home';
-          },
-          timer: 3000,
+  await Swal.fire({
+    title: 'Gracias por su compra',
+    text: 'Esperamos que disfrute',
+    icon: 'success',
+    showCancelButton: true,
+    // confirmButtonColor: '#000',
+    cancelButtonColor: '#FF0000',
+    // cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Confirmar',
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        const response = await fetch(`/cart/${cartId}`, {
+          method: 'DELETE',
         });
-        setTimeout(() => {
-          window.location.href = '/home';
-        }, 3000);
-      })
-      .catch((error) => {
-        console.error('Error en la compra:', error);
-      });
+
+        if (response.ok) {
+          // console.log("Carrito vaciado con éxito.");
+          Swal.fire('Hecho!', 'Has vaciado el carrito', 'success');
+          setTimeout(() => {
+            location.reload();
+            window.location.href = 'api/products';
+          }, 1500);
+        } else {
+          // console.error("Error al vaciar el carrito.");
+        }
+      } catch (error) {
+        // console.error("Error de red:", error);
+      }
+    }
   });
 });
+
+// document.addEventListener('DOMContentLoaded', function () {
+//   const comprarButton = document.getElementById('carrito-acciones-comprar ');
+//   const userEmail = document.getElementById('email').textContent;
+//   comprarButton.addEventListener('click', async function () {
+//     const cartId = document.querySelector('.cartId').textContent;
+//     const totalCart = document.querySelector('.totalCart span').textContent;
+//     const user = userEmail;
+
+//     const cartData = {
+//       usuario: user,
+//       cart_id: cartId,
+//       total: totalCart,
+//     };
+
+//     fetch(`api/carts/${cartId}/purchase`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ cartData }),
+//     })
+//       .then((response) => response.json())
+//       .then((data) => {
+//         // console.log("Compra realizada:", data);
+//         Swal.fire({
+//           title: '¡Gracias por tu compra!',
+//           text: 'Podrás visualizarla en MIS COMPRAS.',
+//           icon: 'success',
+//           confirmButtonText: 'Aceptar',
+//           confirmButtonColor: '#000',
+//           onAfterClose: () => {
+//             window.location.href = '/home';
+//           },
+//           timer: 3000,
+//         });
+//         setTimeout(() => {
+//           window.location.href = '/home';
+//         }, 3000);
+//       })
+//       .catch((error) => {
+//         console.error('Error en la compra:', error);
+//       });
+//   });
+// });
 
 addProduct.addEventListener('submit', (e) => {
   e.preventDefault();
