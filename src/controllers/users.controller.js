@@ -62,28 +62,41 @@ class UserController {
   async deleteInactive(req, res) {
     try {
       const deleteinactiveUsers = await userService.deleteInactiveUser();
-      // await userService.deleteInactiveUsers(inactiveUsers);
-      // const dataDelete = data.map((user) => {
-      // // // // return {
-      // // // //   // id: user._id,
-      // // // //   // firstName: user.firstName,
-      // // // //   // lastName: user.lastName,
-      // // // //   // // age: user.age,
-      // // // //   // email: user.email,
-      // // // //   // // password: user.password,
-      // // // //   // role: user.role,
-      // // // //   lastConnection: user.last_connection,
-      // };
+
+      for (const user of deleteinactiveUsers) {
+        // const resul = await transport.sendMail({
+        //   from: env.googleEmail,
+        //   to: user.email,
+        //   subject: 'Password Recovery',
+        //   html: `
+        //   <div>
+        //   <h1>Hi ${user.firstName || 'User'},</h1>
+        //   //     <p>We inform you that your account has been deleted for inactivity.</p>
+        //   </div>
+        //   `,
+        // });
+        //   const to = user.email;
+        //   const subject = 'Account Deleted';
+        //   const htmlContent = `
+        //   <div>
+        //     <h1>Hi ${user.firstName || 'User'},</h1>
+        //     <p>We inform you that your account has been deleted for inactivity.</p>
+        //   </div>
+        // `;
+        // // // // // // await sendEmail(to, subject, htmlContent);
+      }
+      // return res.status(200).json({
+      //   status: 'success',
+      //   msg: 'User eliminated and notificated',
+      //   payload: deletedUsers,
       // });
-      // // // // // const firstName = req.session.user.firstName;
-      // // // // // const role = req.session.user.role;
-      // // // // // const last = req.session.user.lastConnection;
-      // // // // // console.log(last);
-      // // // // // const title = 'JORDAN® - Users';
-      // // // // // return res.status(200).render('users', { dataDelete, title, firstName, role, last });
     } catch (err) {
-      // logger.error(err);
-      // res.status(501).send({ status: 'error', msg: 'Error en el servidor', error: err });
+      // logger.error(e.message);
+      // return res.status(500).json({
+      //   status: 'error',
+      //   msg: 'something went wrong :(',
+      // payload: {},
+      // });
     }
   }
   //-------------------------------------------------------------------------------------------------------------------------------------

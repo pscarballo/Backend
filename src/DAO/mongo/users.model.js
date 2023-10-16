@@ -1,6 +1,8 @@
 import { UsersMongoose } from '../mongo/models/users.mongoose.js';
 import { logger } from '../../utils/main.js';
 import { subDays } from 'date-fns';
+import { transport } from '../../utils/main.js';
+// import { checkLogin } from '../../middlewares/main.js';
 
 class UsersModel {
   async readOne(email) {
@@ -94,7 +96,7 @@ class UsersModel {
       const inactiveUsers = await UsersMongoose.find({
         last_connection: { $lt: subDays(today, 2) },
       });
-      console.log('models', inactiveUsers);
+
       return inactiveUsers;
     } catch (e) {
       logger.error(e.message);
@@ -107,22 +109,25 @@ class UsersModel {
       const deletedUser = await UsersMongoose.deleteMany({
         _id: { $in: findedUser.map((user) => user._id) },
       });
-      console.log('eliminado', deletedUser);
-      // return deletedUser;
+      const deletedUserMail = findedUser.map((user) => user.email);
+      const deletedUserFirstName = findedUser.map((user) => user.firstName);
+
+      const resul = await transport.sendMail({
+        from: process.env.GOOGLE_EMAIL,
+        to: deletedUserMail,
+        subject: 'Deleted Account',
+        html: `
+            <div>
+            <h1>Hi ${deletedUserFirstName || 'User'},</h1>
+                 <p>We inform you that your account has been deleted for inactivity.</p>
+            </div>
+            `,
+      });
     } catch (e) {
       logger.error(e.message);
       throw e;
     }
   }
-
-  // // // async delete(_id) {
-  // // //   try {
-  // // //     const deletedUser = await UsersMongoose.deleteOne({ _id: _id });
-  // // //     return deletedUser;
-  // // //   } catch (e) {
-  // // //     logger.error(e);
-  // // //   }
-  // // // }
 }
 
 export const usersModel = new UsersModel();

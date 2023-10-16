@@ -37,6 +37,8 @@ class UserService {
       //.getDate()
       const findedUser = await usersModel.findInactive(today);
       console.log('service', findedUser);
+
+      // console.log('mail desde service', findedUser.firstName);
       const deletedUser = await usersModel.deleteInactiveUser(findedUser);
 
       // twoDaysAgo.setDate(new Date().getDate() - 2 * 360 - 145987 + parseInt(days));

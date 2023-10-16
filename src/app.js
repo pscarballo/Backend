@@ -131,8 +131,8 @@ app.use('/purchases', purchasesRouter);
 // app.use('/error', errorRouter);
 //---------------------------------------------------------------------------------------------------------------------------
 //TODO DEJAR PROLIJO CON TODO EN CAPAS
-app.get('/recoverMail', (_, res) => {
-  res.render('recoverMail');
+app.get('/recover-Mail', (_, res) => {
+  res.render('recover-Mail');
 });
 
 //TODO DEJAR PROLIJO CON TODO EN CAPAS
@@ -161,7 +161,7 @@ app.get('/recover-pass', async (req, res) => {
 });
 
 //TODO DEJAR PROLIJO CON TODO EN CAPAS
-app.post('/recoverMail', async (req, res) => {
+app.post('/recover-Mail', async (req, res) => {
   //TODO CHEQUEAR QUE SEA UN EMAIL VALIDO (buscar la funcion regex en stackverflow)
   const { email } = req.body;
   //TODO CHEQUEAR SI EXISTE ESTE EMAIL EN LA BASE DE DATOS
