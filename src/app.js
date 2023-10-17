@@ -13,7 +13,6 @@ import { cartsApiRouter } from './routes/carts-api.routes.js';
 import { cartsRouter } from './routes/carts.routes.js';
 import { errorRouter } from './routes/error.routes.js';
 import { home } from './routes/home.routes.js';
-import { adminConsole } from './routes/admin-console.routes.js';
 import { loggers } from './routes/loggers.routes.js';
 import { login } from './routes/login.routes.js';
 import { mockingProductsRouter } from './routes/mocking-products.routes.js';
@@ -30,7 +29,7 @@ import CustomError from './services/errors/custom-error.js';
 import Errors from './services/errors/enums.js';
 import { connectMongo, connectSocketServer, createHash, logger, transport } from './utils/main.js';
 
-// CONFIG BASICAS Y CONEXION A DB
+// -------------------------------------------------------CONFIG BASICAS Y CONEXION A DB-------------------------------------------------------------//
 const app = express();
 app.use(compression({ brotli: { enabled: true, zlib: {} } }));
 const PORT = env.port;
@@ -38,7 +37,7 @@ const fileStore = FileStore(session);
 
 connectMongo();
 
-// HTTP SERVER
+//---------------------------------------------------------------- HTTP SERVER-----------------------------------------------------------------------//
 const httpServer = app.listen(PORT, () => {
   logger.info(`🚀 App listening on http://localhost:${PORT}`);
 });
@@ -57,7 +56,7 @@ app.use(
   })
 );
 
-// DIRNAME CONFIG
+// ---------------------------------------------------------------DIRNAME CONFIG---------------------------------------------------------------------//
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { RecoverTokensMongoose } from './DAO/mongo/models/recover-codes.js';
@@ -65,28 +64,28 @@ import { UsersMongoose } from './DAO/mongo/models/users.mongoose.js';
 const __filename = fileURLToPath(import.meta.url);
 export const __dirname = dirname(__filename);
 
-// MIDDLEWARES BASICOS
+//---------------------------------------------------------------- MIDDLEWARES------------------------------------------------------------------------//
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// CONFIG DEL MOTOR DE PLANTILLAS
+//-------------------------------------------------------- CONFIG DEL MOTOR DE PLANTILLAS-------------------------------------------------------------//
 app.engine('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
 
-// CONFIG DE PASSPORT
+//-------------------------------------------------------------------PASSPORT-------------------------------------------------------------------------//
 iniPassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Documentacion API
+//--------------------------------------------------------------- Documentacion API------------------------------------------------------------------//
 // import __dirname from “./utils.js”;
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
 // console.log('este----->', __dirname);
 
-//Swagger
+//-------------------------------------------------------------------Swagger------------------------------------------------------------------------//
 const swaggerOptions = {
   definition: {
     openapi: '3.0.1',
@@ -102,14 +101,14 @@ const swaggerOptions = {
 const specs = swaggerJSDoc(swaggerOptions);
 app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
-// ENDPOINTS
+//------------------------------------------------------------------ ENDPOINTS------------------------------------------------------------------------//
 app.use('/api/products', productsApiRouter);
 app.use('/api/carts', cartsApiRouter);
 app.use('/api/users', usersApiRouter);
-app.use('/api/mockingproducts', mockingProductsRouter);
 app.use('/loggerTest', loggers);
 app.use('/api/tickets', apiTickets);
 app.use('/api/sessions', sessionsRouter);
+// app.use('/api/mockingproducts', mockingProductsRouter);
 // app.get('/api/sessions/github', passport.authenticate('github', { scope: ['user:email'] }));
 // app.get('/api/sessions/githubcallback', passport.authenticate('github', { failureRedirect: '/error' }), (req, res) => {
 //   req.session.user = {
@@ -118,22 +117,23 @@ app.use('/api/sessions', sessionsRouter);
 //   };
 //   res.redirect('/home');
 // });
-// ---------------------------------------------------------------------------------------------------------PLANTILLAS
+// -------------------------------------------------------------------PLANTILLAS----------------------------------------------------------------------//
 app.use('/', login);
 app.use('/home', home);
-app.use('/console', adminConsole);
-// app.use('/products', productsRouter);
-app.use('/products-admin', productsAdminRouter);
-// app.use('/users', usersRouter);
 app.use('/cart', cartsRouter);
 app.use('/purchases', purchasesRouter);
+
+// app.use('/products', productsRouter);
+// app.use('/products-admin', productsAdminRouter);
+// app.use('/users', usersRouter);
+
 // app.use('/test-chat', testChatRouter);
 // app.use('/error', errorRouter);
 //---------------------------------------------------------------------------------------------------------------------------
-//TODO DEJAR PROLIJO CON TODO EN CAPAS
-app.get('/recover-Mail', (_, res) => {
-  res.render('recover-Mail');
-});
+// // //TODO DEJAR PROLIJO CON TODO EN CAPAS
+// // app.get('/recover-Mail', (_, res) => {
+// //   res.render('recover-Mail');
+// // });
 
 //TODO DEJAR PROLIJO CON TODO EN CAPAS
 app.post('/recover-pass', async (req, res) => {
@@ -144,17 +144,6 @@ app.post('/recover-pass', async (req, res) => {
     password = createHash(password);
     const updatedUser = await UsersMongoose.updateOne({ email }, { password });
     res.redirect('/api/sessions/login');
-  } else {
-    res.render('error', { errorMsg: 'token expiro o token invalido' });
-  }
-});
-
-//TODO DEJAR PROLIJO CON TODO EN CAPAS
-app.get('/recover-pass', async (req, res) => {
-  const { token, email } = req.query;
-  const foundToken = await RecoverTokensMongoose.findOne({ token, email });
-  if (foundToken && foundToken.expire > Date.now()) {
-    res.render('recover-pass', { token, email });
   } else {
     res.render('error', { errorMsg: 'token expiro o token invalido' });
   }

@@ -60,6 +60,32 @@ class UsersModel {
     }
   }
 
+  async delUser(_id) {
+    try {
+      const delUser = await UsersMongoose.deleteOne({ _id });
+      const restantes = await UsersMongoose.find(
+        {},
+        {
+          _id: true,
+          firstName: true,
+          lastName: true,
+          age: true,
+          email: true,
+          password: true,
+          role: true,
+          premium: true,
+          cartID: true,
+          purchase_made: true,
+          last_connection: true,
+        }
+      );
+
+      return restantes;
+    } catch (e) {
+      logger.error(e);
+    }
+  }
+
   async create(firstName, lastName, age, email, password, role, cartID) {
     try {
       const userCreated = await UsersMongoose.create({

@@ -34,27 +34,13 @@ class UserService {
   async deleteInactiveUser() {
     try {
       const today = new Date();
-      //.getDate()
+
       const findedUser = await usersModel.findInactive(today);
       console.log('service', findedUser);
 
-      // console.log('mail desde service', findedUser.firstName);
       const deletedUser = await usersModel.deleteInactiveUser(findedUser);
-
-      // twoDaysAgo.setDate(new Date().getDate() - 2 * 360 - 145987 + parseInt(days));
-      // console.log('two days ago', JSON.stringify({ date: twoDaysAgo }));
     } catch (e) {}
   }
-
-  // async deleteInactive(findedUser) {
-  //   const deletedUser = await usersModel.deleteInactiveUser(findedUser);
-  //   try {
-  //     const users = await usersModel.deleteInactive();
-  //     return users;
-  //   } catch (e) {
-  //     logger.error(e);
-  //   }
-  // }
 
   async readById(_id) {
     try {
@@ -62,6 +48,34 @@ class UserService {
       return user;
     } catch (e) {
       logger.error(e);
+      throw e;
+    }
+  }
+
+  async delUser(_id) {
+    try {
+      // const user = await this.readById(_id);
+      // if (!user) {
+      //   throw new Error('Usuario inexistente delUser');
+      // }
+      user = await usersModel.delUser(_id);
+      return user;
+    } catch (e) {
+      logger.error(e);
+      throw e;
+    }
+  }
+  async premiumSwitch(userId) {
+    try {
+      const user = await this.readById(userId);
+      if (!user) {
+        throw new Error('Usuario inexistente PremiumSwitch');
+      }
+      user.premium = !user.premium;
+      const updatedUser = await this.update(userId, { premium: user.premium });
+      return updatedUser;
+    } catch (e) {
+      logger.error(e.message);
       throw e;
     }
   }
@@ -78,15 +92,6 @@ class UserService {
       logger.error(e);
     }
   }
-
-  // async delete(_id) {
-  //   try {
-  //     const userDeleted = await usersModel.delete(_id);
-  //     return userDeleted;
-  //   } catch (e) {
-  //     logger.error(e);
-  //   }
-  // }
 
   async authenticateUser(email, password) {
     try {
@@ -119,21 +124,6 @@ class UserService {
       return userCreated;
     } catch (e) {
       logger.error(e);
-      throw e;
-    }
-  }
-
-  async premiumSwitch(userId) {
-    try {
-      const user = await this.readById(userId);
-      if (!user) {
-        throw new Error('Usuario inexistente');
-      }
-      user.premium = !user.premium;
-      const updatedUser = await this.update(userId, { premium: user.premium });
-      return updatedUser;
-    } catch (e) {
-      logger.error(e.message);
       throw e;
     }
   }

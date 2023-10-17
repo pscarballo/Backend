@@ -25,37 +25,79 @@
 							</div>
 						</div>
 					{{/if}}
-					<a href="/home"><img src="/images/logo.png" class="logo" alt="" /></a>
-					<h2 class="tituloPrincipal">JORDAN'S CLOSET</h2>
-					<table
-						class="table table-dark table-striped-columns mt-3 w-50 text-center"
-					>
-						<thead>
-							<tr class="table-secondary">
-								{{!-- <th scope="col">ID</th> --}}
-								<th scope="col">FIRSTNAME</th>
-								<th scope="col">LASTNAME</th>
-								{{!-- <th scope="col">AGE</th> --}}
-								<th scope="col">EMAIL</th>
-								{{!-- <th scope="col">PASSWORD</th> --}}
-								<th scope="col">ROL</th>
-								<th scope="col">INACTIVO</th>
-							</tr>
-						</thead>
-						{{#each dataParse}}
+					{{#if dataParse}}
+						<a href="/home"><img src="/images/logo.png" class="logo" alt="" /></a>
+						<h2 class="tituloPrincipal">JORDAN'S CLOSET</h2>
+						<table
+							class="table table-dark table-striped-columns mt-3 w-50 text-center"
+						>
+							<thead>
+								<tr class="table-secondary">
+									{{!-- <th scope="col">ID</th> --}}
+									<th scope="col">FIRSTNAME</th>
+									<th scope="col">LASTNAME</th>
+									{{!-- <th scope="col">AGE</th> --}}
+									<th scope="col">EMAIL</th>
+									{{!-- <th scope="col">PASSWORD</th> --}}
+									<th scope="col">ROL</th>
+									{{!-- <th scope="col">INACTIVO</th> --}}
+								</tr>
+							</thead>
+							{{#each dataParse}}
+								<tbody>
+									<tr>
+										{{!-- <td>{{this.id}}</td> --}}
+										<td>{{this.firstName}}</td>
+										<td>{{this.lastName}}</td>
+										{{!-- <td>{{this.age}}</td> --}}
+										<td>{{this.email}}</td>
+										{{!-- <td>{{this.password}}</td> --}}
+										<td>{{this.role}}</td>
+										{{!-- <td href="/api/sessions/logout" class="btn btn-danger btn-sm btnLogin ms-2 me-3 mb-1">ELIMINAR</td> --}}
+									</tr>
+								</tbody>
+							{{/each}}
+					{{/if}}
+					{{#if dataParseConsole}}
+						<a href="/home"><img src="/images/logo.png" class="logo" alt="" /></a>
+						<h2 class="tituloPrincipal">JORDAN'S CLOSET</h2>
+						<table
+							class="table table-dark table-striped-columns mt-3 w-50 text-center"
+						>
+							<thead>
+								<tr class="table-secondary">
+									{{!-- <th scope="col">ID</th> --}}
+									<th scope="col">FIRSTNAME</th>
+									<th scope="col">LASTNAME</th>
+									{{!-- <th scope="col">AGE</th> --}}
+									{{!-- <th scope="col">EMAIL</th> --}}
+									{{!-- <th scope="col">PASSWORD</th> --}}
+									<th scope="col">ROL</th>
+									<th scope="col">DEL USER</th>
+									<th scope="col">CHANGE ROL</th>
+								</tr>
+							</thead>
+						{{#each dataParseConsole}}
+						
 							<tbody>
 								<tr>
 									{{!-- <td>{{this.id}}</td> --}}
 									<td>{{this.firstName}}</td>
 									<td>{{this.lastName}}</td>
 									{{!-- <td>{{this.age}}</td> --}}
-									<td>{{this.email}}</td>
+									{{!-- <td>{{this.email}}</td> --}}
 									{{!-- <td>{{this.password}}</td> --}}
 									<td>{{this.role}}</td>
-									<td href="/api/sessions/logout" class="btn btn-danger btn-sm btnLogin ms-2 me-3 mb-1">ELIMINAR</td>
+									<td> <a	href="/api/user/delUser/{{this.id}}" class="btn btn-light btn-sm fs-6 text-decoration-none"	>DELETE</td>
+									<td> <a	href="/api/user/premium/{{this.id}}" class="btn btn-light btn-sm fs-6 text-decoration-none"	>CHANGE</td>
+									{{!-- //change con el id --}}
+									
+									
+									{{!-- <td href="/api/sessions/logout" class="btn btn-danger btn-sm btnLogin ms-2 me-3 mb-1">ELIMINAR</td> --}}
 								</tr>
 							</tbody>
 						{{/each}}
+					{{/if}}
 					</table>
 
 					

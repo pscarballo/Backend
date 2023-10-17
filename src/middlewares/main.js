@@ -34,6 +34,16 @@ export function checkUser(req, res, next) {
   }
 }
 
+export function checkPremium(req, res, next) {
+  if (req.session?.user?.premium == 'true') {
+    return next();
+  } else {
+    logger.error('Debes ser usuario Premium para realizar esta acción.');
+    const isPremium = 'Debes ser usuario Premium para realizar esta acción.';
+    return res.status(201).render('error', { isPremium });
+  }
+}
+
 export async function checkCart(req, res, next) {
   const cartUser = req.session.user.cartId;
   const cartParams = req.params.cid;

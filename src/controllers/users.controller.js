@@ -3,24 +3,6 @@ import { userService } from '../services/users.service.js';
 import { logger } from '../utils/main.js';
 
 class UserController {
-  // async read(req, res) {
-  //   try {
-  //     const users = await userService.read();
-  //     return res.status(200).json({
-  //       status: 'success',
-  //       msg: 'listado de usuarios',
-  //       payload: users,
-  //     });
-  //   } catch (e) {
-  //     logger.error(e);
-  //     return res.status(500).json({
-  //       status: 'error',
-  //       msg: 'something went wrong :(',
-  //       payload: {},
-  //     });
-  //   }
-  // }
-
   async readById(req, res) {
     try {
       const { _id } = req.params;
@@ -32,6 +14,70 @@ class UserController {
       });
     } catch (e) {
       logger.error(e);
+    }
+  }
+
+  async delUser(req, res) {
+    try {
+      // const { _id } = req.params;
+      const userId = req.params.uid;
+      // console.log('userId en controller', userId);
+      const delUser = await userService.delUser(userId);
+      const dataParseConsole = delUser.map((user) => {
+        return {
+          id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          age: user.age,
+          role: user.role,
+        };
+      });
+      const firstName = req.session.user.firstName;
+      const role = req.session.user.role;
+      const title = 'JORDAN® - Console';
+      return res.status(200).render('users', { dataParseConsole, title, firstName, role });
+
+      // // // return res.status(201).json({
+      // // //   status: 'success',
+      // // //   msg: `Mostrando el producto con id ${_id}`,
+      // // //   payload: { delUser },
+      // // // });
+    } catch (e) {
+      logger.error(e);
+    }
+  }
+  async adminConsole(req, res) {
+    try {
+      const data = await userService.read();
+      const dataParseConsole = data.map((user) => {
+        return {
+          id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          age: user.age,
+          // email: user.email,
+          // password: user.password,
+          role: user.role,
+        };
+      });
+      const firstName = req.session.user.firstName;
+      const role = req.session.user.role;
+      const title = 'JORDAN® - Console';
+      return res.status(200).render('users', { dataParseConsole, title, firstName, role });
+    } catch (err) {
+      logger.error(err);
+      res.status(501).send({ status: 'error', msg: 'Error en el servidor', error: err });
+    }
+  }
+
+  async premiumSwitch(req, res) {
+    try {
+      const userId = req.params.uid;
+      const user = await userService.premiumSwitch(userId);
+      req.session.user.premium = user.premium;
+      res.status(200).json(user);
+    } catch (e) {
+      res.status(404).json({ error: e.message });
     }
   }
 
@@ -58,76 +104,21 @@ class UserController {
       res.status(501).send({ status: 'error', msg: 'Error en el servidor', error: err });
     }
   }
+
   //----------------------------------------------------------------------------------------------------------------
   async deleteInactive(req, res) {
     try {
       const deleteinactiveUsers = await userService.deleteInactiveUser();
-
-      for (const user of deleteinactiveUsers) {
-        // const resul = await transport.sendMail({
-        //   from: env.googleEmail,
-        //   to: user.email,
-        //   subject: 'Password Recovery',
-        //   html: `
-        //   <div>
-        //   <h1>Hi ${user.firstName || 'User'},</h1>
-        //   //     <p>We inform you that your account has been deleted for inactivity.</p>
-        //   </div>
-        //   `,
-        // });
-        //   const to = user.email;
-        //   const subject = 'Account Deleted';
-        //   const htmlContent = `
-        //   <div>
-        //     <h1>Hi ${user.firstName || 'User'},</h1>
-        //     <p>We inform you that your account has been deleted for inactivity.</p>
-        //   </div>
-        // `;
-        // // // // // // await sendEmail(to, subject, htmlContent);
-      }
-      // return res.status(200).json({
-      //   status: 'success',
-      //   msg: 'User eliminated and notificated',
-      //   payload: deletedUsers,
-      // });
     } catch (err) {
-      // logger.error(e.message);
-      // return res.status(500).json({
-      //   status: 'error',
-      //   msg: 'something went wrong :(',
-      // payload: {},
-      // });
+      logger.error(e.message);
+      return res.status(500).json({
+        status: 'error',
+        msg: 'something went wrong :(',
+        payload: {},
+      });
     }
   }
   //-------------------------------------------------------------------------------------------------------------------------------------
-
-  // async create(req, res) {
-  //   try {
-  //     const { firstName, lastName, age, email, password } = req.body;
-  //     let user = new UsersDTO({ firstName, lastName, age, email, password });
-  //     console.log(user);
-  //     const userCreated = await userService.create(user);
-  //     return res.status(201).json({
-  //       status: "success",
-  //       msg: "user created",
-  //       payload: {
-  //         _id: userCreated._id,
-  //         firstName: userCreated.firstName,
-  //         lastName: userCreated.lastName,
-  //         age: userCreated.age,
-  //         email: userCreated.email,
-  //         password: userCreated.password,
-  //       },
-  //     });
-  //   } catch (e) {
-  //     console.log(e);
-  //     return res.status(500).json({
-  //       status: "error",
-  //       msg: "something went wrong :(",
-  //       payload: {},
-  //     });
-  //   }
-  // }
 
   async update(req, res) {
     try {
@@ -166,33 +157,6 @@ class UserController {
     }
   }
 
-  // // // // // async delete(req, res) {
-  // // // // //   try {
-  // // // // //     const { _id } = req.params;
-  // // // // //     const result = await userService.delete(_id);
-  // // // // //     if (result?.deletedCount > 0) {
-  // // // // //       return res.status(200).json({
-  // // // // //         status: 'success',
-  // // // // //         msg: 'user deleted',
-  // // // // //         payload: {},
-  // // // // //       });
-  // // // // //     } else {
-  // // // // //       return res.status(404).json({
-  // // // // //         status: 'error',
-  // // // // //         msg: 'user not found',
-  // // // // //         payload: {},
-  // // // // //       });
-  // // // // //     }
-  // // // // //   } catch (e) {
-  // // // // //     logger.error(e);
-  // // // // //     return res.status(500).json({
-  // // // // //       status: 'error',
-  // // // // //       msg: 'something went wrong :(',
-  // // // // //       payload: {},
-  // // // // //     });
-  // // // // //   }
-  // // // // // }
-
   async loginUser(email, password) {
     try {
       const user = await userService.authenticateUser(email, password);
@@ -212,16 +176,6 @@ class UserController {
     } catch (e) {
       logger.error(e);
       return null;
-    }
-  }
-  async premiumSwitch(req, res) {
-    try {
-      const userId = req.params.uid;
-      const user = await userService.premiumSwitch(userId);
-      req.session.user.premium = user.premium;
-      res.status(200).json(user);
-    } catch (e) {
-      res.status(404).json({ error: e.message });
     }
   }
 
