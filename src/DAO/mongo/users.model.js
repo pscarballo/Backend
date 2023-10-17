@@ -60,9 +60,9 @@ class UsersModel {
     }
   }
 
-  async delUser(_id) {
+  async delUser(id) {
     try {
-      const delUser = await UsersMongoose.deleteOne({ _id });
+      const delUser = await UsersMongoose.deleteOne({ _id: id });
       const restantes = await UsersMongoose.find(
         {},
         {

@@ -6,7 +6,7 @@ import { checkAdmin, checkPremium } from '../middlewares/main.js';
 
 usersApiRouter.get('/', checkAdmin, usersController.read);
 usersApiRouter.delete('/delete', usersController.deleteInactive);
-usersApiRouter.get('/delUser/uid', checkAdmin, usersController.delUser);
+usersApiRouter.delete('/:_id', checkAdmin, usersController.delUser);
 usersApiRouter.get('/premium/:uid', checkPremium, usersController.premiumSwitch);
 usersApiRouter.get('/adminConsole', checkAdmin, usersController.adminConsole);
 // usersApiRouter.post('/:uid/profile', profileUploader.single('profileImage'), usersController.postDocuments);

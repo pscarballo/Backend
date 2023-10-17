@@ -105,6 +105,7 @@ app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 app.use('/api/products', productsApiRouter);
 app.use('/api/carts', cartsApiRouter);
 app.use('/api/users', usersApiRouter);
+app.use('/id', usersApiRouter);
 app.use('/loggerTest', loggers);
 app.use('/api/tickets', apiTickets);
 app.use('/api/sessions', sessionsRouter);

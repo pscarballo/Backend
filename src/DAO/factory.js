@@ -25,15 +25,15 @@ async function importModels() {
       };
       break;
 
-    // case 'MEMORY':
-    //   logger.info('DB: Memory persistence');
-    //   models = {
-    //     products: productsMemory,
-    //     users: usersMemory,
-    //     carts: cartsMemory,
-    //     tickets: ticketsMemory,
-    //   };
-    //   break;
+    case 'MEMORY':
+      logger.info('DB: Memory persistence');
+      models = {
+        products: productsMemory,
+        users: usersMemory,
+        carts: cartsMemory,
+        tickets: ticketsMemory,
+      };
+      break;
 
     default:
       throw new Error(`El tipo de persistencia "${env.persistence}" no es válido.`);

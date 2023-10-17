@@ -54,10 +54,6 @@ class UserService {
 
   async delUser(_id) {
     try {
-      // const user = await this.readById(_id);
-      // if (!user) {
-      //   throw new Error('Usuario inexistente delUser');
-      // }
       user = await usersModel.delUser(_id);
       return user;
     } catch (e) {

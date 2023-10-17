@@ -19,10 +19,9 @@ class UserController {
 
   async delUser(req, res) {
     try {
-      // const { _id } = req.params;
-      const userId = req.params.uid;
-      // console.log('userId en controller', userId);
-      const delUser = await userService.delUser(userId);
+      const { _id } = req.params;
+      const delUser = await userService.delUser(_id);
+      console.log('ususario encontrado en conroller', delUser);
       const dataParseConsole = delUser.map((user) => {
         return {
           id: user._id,
@@ -30,6 +29,7 @@ class UserController {
           lastName: user.lastName,
           age: user.age,
           role: user.role,
+          premium: user.premium,
         };
       });
       const firstName = req.session.user.firstName;
@@ -46,6 +46,7 @@ class UserController {
       logger.error(e);
     }
   }
+
   async adminConsole(req, res) {
     try {
       const data = await userService.read();
@@ -55,9 +56,8 @@ class UserController {
           firstName: user.firstName,
           lastName: user.lastName,
           age: user.age,
-          // email: user.email,
-          // password: user.password,
           role: user.role,
+          premium: user.premium,
         };
       });
       const firstName = req.session.user.firstName;
@@ -86,12 +86,9 @@ class UserController {
       const data = await userService.read();
       const dataParse = data.map((user) => {
         return {
-          // id: user._id,
           firstName: user.firstName,
           lastName: user.lastName,
-          // age: user.age,
           email: user.email,
-          // password: user.password,
           role: user.role,
         };
       });
@@ -105,7 +102,6 @@ class UserController {
     }
   }
 
-  //----------------------------------------------------------------------------------------------------------------
   async deleteInactive(req, res) {
     try {
       const deleteinactiveUsers = await userService.deleteInactiveUser();
@@ -118,7 +114,6 @@ class UserController {
       });
     }
   }
-  //-------------------------------------------------------------------------------------------------------------------------------------
 
   async update(req, res) {
     try {
@@ -176,27 +171,6 @@ class UserController {
     } catch (e) {
       logger.error(e);
       return null;
-    }
-  }
-
-  async postDocuments(req, res) {
-    try {
-      if (!req.file) {
-        return res.status(400).json({ status: 'error', msg: 'No se ha proporcionado un archivo.' });
-      }
-
-      const { uid } = req.params;
-      const file = req.file;
-      const userUpdated = await userService.postDocuments(uid, file);
-
-      return res.status(200).render('login');
-    } catch (e) {
-      console.error(e.message);
-      return res.status(500).json({
-        status: 'error',
-        msg: 'Error al subir la imagen de perfil.',
-        error: e.message,
-      });
     }
   }
 }

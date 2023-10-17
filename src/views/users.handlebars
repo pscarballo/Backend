@@ -73,6 +73,7 @@
 									{{!-- <th scope="col">EMAIL</th> --}}
 									{{!-- <th scope="col">PASSWORD</th> --}}
 									<th scope="col">ROL</th>
+									<th scope="col">PREMIUM</th>
 									<th scope="col">DEL USER</th>
 									<th scope="col">CHANGE ROL</th>
 								</tr>
@@ -88,7 +89,8 @@
 									{{!-- <td>{{this.email}}</td> --}}
 									{{!-- <td>{{this.password}}</td> --}}
 									<td>{{this.role}}</td>
-									<td> <a	href="/api/user/delUser/{{this.id}}" class="btn btn-light btn-sm fs-6 text-decoration-none"	>DELETE</td>
+									<td>{{this.premium}}</td>
+									<td> <a	href="/{{this.id}}" class="btn btn-light btn-sm fs-6 text-decoration-none"	>DELETE</td>
 									<td> <a	href="/api/user/premium/{{this.id}}" class="btn btn-light btn-sm fs-6 text-decoration-none"	>CHANGE</td>
 									{{!-- //change con el id --}}
 									
