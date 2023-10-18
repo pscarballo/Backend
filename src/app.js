@@ -75,10 +75,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //--------------------------------------------------------------- Documentacion API------------------------------------------------------------------//
-// import __dirname from “./utils.js”;
+
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
-// console.log('este----->', __dirname);
 
 //-------------------------------------------------------------------Swagger------------------------------------------------------------------------//
 const swaggerOptions = {
@@ -110,50 +109,7 @@ app.use('/cart', cartsRouter);
 app.use('/purchases', purchasesRouter);
 app.use('/passw-recover', passwRecoverRouter);
 
-//TODO DEJAR PROLIJO CON TODO EN CAPAS
-app.post('/recover-pass', async (req, res) => {
-  let { token, email, password } = req.body;
-  console.log(token, email, password);
-  const foundToken = await RecoverTokensMongoose.findOne({ token, email });
-  if (foundToken && foundToken.expire > Date.now() && password) {
-    password = createHash(password);
-    const updatedUser = await UsersMongoose.updateOne({ email }, { password });
-    res.redirect('/api/sessions/login');
-  } else {
-    res.render('error', { errorMsg: 'token expiro o token invalido' });
-  }
-});
-
-//TODO DEJAR PROLIJO CON TODO EN CAPAS
-app.post('/recover-Mail', async (req, res) => {
-  const { email } = req.body;
-
-  const token = randomBytes(20).toString('hex');
-  const expire = Date.now() + 3600000;
-  const tokenSaved = await RecoverTokensMongoose.create({
-    email,
-    token,
-    expire,
-  });
-
-  const result = await transport.sendMail({
-    from: env.googleEmail,
-    to: email,
-    subject: 'Password Recovery',
-    html: `
-		<div>
-			 <p>Password change code ${token}</p>
-			 <a href="${env.apiUrl}/recover-pass?token=${token}&email=${email}">Click here to change</a>				
-		</div>
-		`,
-  });
-
-  console.log(result);
-  res.render('error', { checkEmail: 'Check your email' });
-});
-
 app.get('*', (req, res, next) => {
-  console.log('que onda?');
   try {
     CustomError.createError({
       name: 'Page Not Found',

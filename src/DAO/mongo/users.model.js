@@ -147,6 +147,7 @@ class UsersModel {
             </div>
             `,
       });
+      logger.info('User deleted, mail send');
     } catch (e) {
       logger.error(e.message);
       throw e;

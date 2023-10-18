@@ -36,10 +36,12 @@ class UserService {
       const today = new Date();
 
       const findedUser = await usersModel.findInactive(today);
-      console.log('service', findedUser);
 
       const deletedUser = await usersModel.deleteInactiveUser(findedUser);
-    } catch (e) {}
+    } catch (e) {
+      logger.error(e);
+      throw e;
+    }
   }
 
   async readById(_id) {

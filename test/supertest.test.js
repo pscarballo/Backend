@@ -19,7 +19,7 @@ describe('Test API', () => {
 
     it('Registro', async () => {
       const { _body, statusCode } = await requester.post('api/sessions/register').send(mockUser);
-      console.log(_body);
+
       expect(statusCode).to.be.eql(200);
       expect(_body.payload).to.be.ok;
     });

@@ -69,7 +69,7 @@ export async function checkTicket(req, res, next) {
 
 export function errorHandler(error, req, res, next) {
   logger.error(error);
-  console.log(error);
+
   switch (error.code) {
     case Errors.ROUTING_ERROR:
       const notFound = 'Not Found';
