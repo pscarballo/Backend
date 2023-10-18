@@ -1,0 +1,60 @@
+<div class='container-fluid'>
+  <div class='row'>
+    <div class='col g-0'>
+      <div class='bg-image' style='filter: blur(5px);'></div>
+
+      <div class='contenedorPrincipal'>
+         <a href='/'><img src='/images/logo.png' class='logo' alt='logo' /></a>  
+        <div class='d-flex justify-content-center align-items-center flex-column bg-dark' style='border-radius: 20px 20px 20px 20px'>
+          <div class='tab-content'>
+            <div class='tab-pane fade show active' id='pills-login' role='tabpanel' aria-labelledby='tab-login'>
+              <form action='/api/sessions/register' method='post' style='width: 500px; padding: 10px;'>
+             
+
+                <div class='mb-4'>
+                  <div class='form-floating mb-3'>
+                    <input type='text' class='form-control border-0 border-bottom border-dark' id='inputFirstNameRegister' name='firstName' placeholder='Firstname' />
+                    <label for='input-firstNameLogin'><i class=''></i>Firstname</label>
+                  </div>
+
+                  <div class='form-floating mb-3'>
+                    <input type='text' class='form-control border-0 border-bottom border-dark' id='inputLastnameRegister' name='lastName' placeholder='Lastname' />
+                    <label for='input-lastnamedLogin'><i class=''></i>Lastname</label>
+                  </div>
+
+                  <div class='form-floating mb-3'>
+                    <input type='number' class='form-control border-0 border-bottom border-dark' id='inputAgeRegister' name='age' placeholder='Age' />
+                    <label for='input-ageLogin'><i class=''></i>Age</label>
+                  </div>
+
+                  <div class='form-floating mb-3'>
+                    <input type='email' class='form-control border-0 border-bottom border-dark' id='inputEmailRegister' name='email' placeholder='Email' />
+                    <label for='input-emailLogin'><i class=''></i>Email</label>
+                  </div>
+
+                  <div class='form-floating mb-3'>
+                    <input type='password' class='form-control border-0 border-bottom border-dark' id='inputPasswordRegister' name='password' placeholder='Password' />
+                    <label for='input-passwordLogin'><i class=''></i>Password</label>
+                  </div>
+
+                  <div class='w-100 mt-4 d-flex justify-content-center align-items-center flex-column text-white'>
+                    <button type='submit' class='btn btn-danger btn-block mb-4 w-100'>
+                      Register
+                    </button>
+                    <div class='w-100 d-flex justify-content-between align-items-center flex-column gap-3'>
+                      
+                      <div class='row'>                        
+                          <a href='/api/sessions/login'>Login</a>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

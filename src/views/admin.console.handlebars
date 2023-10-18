@@ -1,0 +1,60 @@
+<main>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col g-0">
+				<div class="bg-image" style="filter: blur(5px);"></div>
+				<div class="contenedorPrincipal">
+					{{#if firstName}}
+						<div
+							class="flex-row text-white text-end mt-3 ms-3"
+							style="width: 100%; position: absolute; top: 0; right: 0"
+						>
+							<div class="d-flex justify-content-end align-items-center">
+								<h5>Hola, {{firstName}}. Tu Rol es {{role}}</h5>
+								<a
+									href="/home"
+									class="btn btn-light btn-sm fs-6 text-decoration-none"
+								>
+									<i class=""></i>HOME</a>
+								<a
+									href="/api/sessions/logout"
+									class="btn btn-danger btn-sm btnLogin ms-2 me-3 mb-1"
+								>
+									<i class=""></i>Logout
+								</a>
+							</div>
+						</div>
+					{{/if}}
+					<a href="/home"><img src="/images/logo.png" class="logo" alt="" /></a>
+					<h2 class="tituloPrincipal">JORDAN'S CLOSET</h2>
+					<table
+						class="table table-dark table-striped-columns mt-3 w-50 text-center"
+					>
+						<thead>
+							<tr class="table-secondary">
+								
+								<th scope="col">FIRSTNAME</th>
+								<th scope="col">LASTNAME</th>
+								<th scope="col">ROL</th>
+								<th scope="col">INACTIVO</th>
+							</tr>
+						</thead>
+						{{#each dataParseConsole}}
+							<tbody>
+								<tr>
+									
+									<td>{{this.firstName}}</td>
+									<td>{{this.lastName}}</td>
+									<td>{{this.role}}</td>
+									<td><button class="btn btn-danger btn-sm btnLogin ms-2 me-3 mb-1">ELIMINAR</button></td>
+								</tr>
+							</tbody>
+						{{/each}}
+					</table>
+
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
